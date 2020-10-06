@@ -1,0 +1,82 @@
+% ==============================================================================
+%
+% [ FILE ] beamer_settings.tex
+% [ INIT ] 12 September 2019
+%
+% ==============================================================================
+
+% packages
+\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\usepackage{datetime}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage[natbibapa]{apacite}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{etoolbox}
+
+% color macros
+\definecolor{black}{RGB}{0,0,0} % none more black (Pantone Black C)
+\definecolor{white}{RGB}{255,255,255} % none more white
+\definecolor{uf_blue}{RGB}{0,33,165} % UF blue (PMS 287; #0021A5)
+\definecolor{uf_orange}{RGB}{250,70,22} % UF orange (PMS 172; #FA4616)
+\definecolor{uf_blue_m}{RGB}{108,154,195} % muted UF blue (PMS 216-5; #6C9AC3)
+\definecolor{uf_orange_m}{RGB}{226,143,65} % muted UF orange (PMS 46-3; #E28F41)
+\definecolor{uf_green}{RGB}{94,142,63} % UF green (PMS 293-2; #5E8E3F)
+\definecolor{uf_yellow}{RGB}{252,175,23} % muted UF orange (PMS 18-1; #FCAF17)
+\definecolor{tw_blue}{RGB}{29,161,242} % twitter blue (#1DA1F2)
+
+% set colors
+\setbeamercolor{title}{fg = black}
+\setbeamercolor{frametitle}{fg = black}
+\setbeamercolor{framesubtitle}{fg = black}
+\setbeamercolor{normal text}{fg = black}
+\setbeamercolor{description item}{fg = uf_orange}
+\setbeamercolor{block title}{fg = black}
+\setbeamercolor{button}{bg = uf_blue}
+\setbeamercolor{enumerate item}{fg = uf_blue}
+\setbeamertemplate{itemize item}{\footnotesize\color{uf_yellow}$\blacktriangleright$}
+\setbeamertemplate{itemize
+  subitem}{\scriptsize\color{uf_yellow}$\blacktriangleright$}
+\setbeamertemplate{itemize subsubitem}{\tiny\color{uf_yellow}$\blacktriangleright$}
+\setbeamertemplate{itemize/enumerate subbody begin}{\footnotesize}
+
+
+% headers
+\setbeamerfont{framesubtitle}{series = \itshape}
+
+% fonts 
+\setmainfont{Avenir Light} 
+\setsansfont{Avenir Light} 
+\setmonofont{Menlo}
+
+% beamer theme and options
+\usetheme{default}
+% \beamertemplatenavigationsymbolsempty
+\setbeamercovered{transparent}
+\addtobeamertemplate{framesubtitle}{}{\vspace{-2em}}
+\setbeamertemplate{footline}[frame number]
+
+% make bibliography smaller
+\renewcommand*{\bibfont}{\tiny}
+
+% make citations smaller
+\makeatletter
+\DeclareRobustCommand\citep
+{\begingroup\scriptsize\NAT@swatrue\let\NAT@ctype\z@\NAT@partrue
+  \@ifstar{\NAT@fulltrue\NAT@citetp}{\NAT@fullfalse\NAT@citetp}}
+\makeatother
+
+% table alignment
+\newcommand{\RR}{\raggedright\arraybackslash}
+\newcommand{\RL}{\raggedleft\arraybackslash}
+
+\newtcolorbox{myquote}{colback=gray!10!white,
+  colframe=gray!10!white,
+  fontupper=\scriptsize\itshape}
+\renewenvironment{quote}{\begin{myquote}}{\end{myquote}}
+

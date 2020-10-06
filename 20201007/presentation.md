@@ -1,161 +1,258 @@
 ---
-title: BARP!
-subtitle: Notes for MRP reading group
-date: 27 May 2020
-author: Benjamin Skinner
+title: How Administrative Data Collection and Analysis Can Better Reflect Racial and Ethnic Identities
+subtitle: "[[DOI:10.3102/0091732X20903321]](https://doi.org/10.3102/0091732X20903321)"
+author: 
+ - Samantha Viano
+ - Dominique J. Baker
+classoption: aspectratio=169
 ---
 
-# Paper
-Bisbee, J. (2019). "BARP: Improving Mister P Using Bayesian
-Additive Regression Trees" _American Political Science Review_ 113:4,
-1060–1065. [doi:10.1017/S0003055419000480](https://www.cambridge.org/core/journals/american-political-science-review/article/barp-improving-mister-p-using-bayesian-additive-regression-trees/630866EB47F9366EDB3C22CFD951BB6F)
+# Outline
 
-## Data
+- Motivation
+- Useful background/definitions
+- Purpose
+- Frameworks
+  - Critical Race Theory
+  - (Traditional) Quantitative Research
+  - QuantCrit
+- Methodology
+- Findings
+- Possible approaches
+- Questions
 
-- From five large surveys (following Buttice & Highton, 2013)
-  - Three National Annenberg Election Studies
-  - Two Cooperative Congressional Election Studies
-- 89 items total
-- Sample sizes ranging from 25,000 to more than 60,000 observations
-- Treat disaggregated state averages as the "ground truth"
-- Use covariate strata proportions to poststratify
-- Individual-level covariates:
-  - sex
-  - race 
-  - age 
-  - education
-- State-level covariates:
-  - presidential vote 
-  - religious conservatism
-- Outcomes:
+# Motivation
 
-![_From Buttice and Highton, 2013, p. 465_](items.png)
+> Prior research on the use of R/E [race/ethnicity] in the social
+> sciences has often focused on the actual collection and
+> categorization of R/E data (e.g., Denton & Deane, 2010) and how
+> participants are categorized into R/E groups, with less attention
+> paid to how researchers then use those categorizations in their
+> analyses. In this synthesis, we compile the knowledge and insights
+> from this literature to further the field’s understanding of how to
+> measure R/E in administrative data and then analyze these data to
+> understand trends and disparities by R/E. (p. 302)
 
-## Method
+# Useful background
 
-- Randomly sample with replacement sample sizes:
-	- small (1,500)
-	- medium (3,000)
-	- large (4,500)
-- 200 replications
-- To fit models:
-  - MRP: [`lme4`](https://cran.r-project.org/package=lme4)
-  - BARP: custom [BARP](https://github.com/jbisbee1/BARP) package (based on
-  [`bartMachine`](https://cran.r-project.org/package=bartMachine)
-  package)
-  - Other (see below): [`SuperLearner`](https://cran.r-project.org/package=SuperLearner)
-- Other comparison (from Section 7 of [supporting information](https://static.cambridge.org/content/id/urn:cambridge.org:id:article:S0003055419000480/resource/name/S0003055419000480sup001.pdf)):
-  - Gradient Boosting Machines (GBM)
-  - Kernel k-Nearest Neighbor (kNN)
-  - Neural Networks (NNET)
-  - Support Vector Machines (SVM)
-  - Elastic-net regularization (LASSO)
-- Evaluation metrics
-  - mean absolute error
-  - correlation between predicted state values and "true" values
-  - Buttice & Highton (2013) use standardized versions of these
-    values; Bisbee shows this version in Figure 1 of supporting
-    information --- results are more strongly in favor of BARP over MRP
+::: columns
 
-## Results
+:::: column
+## Education as a field
+- Low consensus
+  - Many are trained in a discipline
+  - Others trained in education schools
+- Quant/qual divide
+- Practitioner/researcher divide
+- **Upshot:** researchers using a thousand approaches to analyze data
+collected for a thousand reasons under a thousand assumptions
 
-- Predictive accuracy (figure 1): 
-  - MAE lower with BARP
-  - ICC higher with BARP
-- Sensitivity to misspecification (figure 2):
-  - Drop state-level covariates from model and perform t-test on
-    difference
-  - BARP appears less sensitive to misspecification
-- Sensitivity to within-state sample size (figure 3):
-  - BARP less sensitive
-- Comparison with other regularization methods (takeaway from supporting
-  information, p. 18):
-  
-  > These comparisons produce three general conclusions.  
-  > - First, MRP is competitive with more sophisticated methods in
-  >    terms of mean absolute error in larger sample sizes.
-  > - Second, BARP is among the best-in-class in terms of mean
-  >   absolute error but is more in the middle of the pack in terms of
-  >   interstate correlation.
-  > - Third, the best methods evaluated in terms of mean absolute
-  >   error are not the same as the best methods judged by interstate
-  >   correlation. Across both metrics, LASSO regularization is
-  >   competitive.
+::::
 
-  
-  
-## Takeaway
+:::: column
+## Definitions
 
-- When conditions are good (strong 2nd-level covariates and more
-  variation between groups than within), MRP and BARP are about the
-  same.
-- When less properly specified, BARP may be less sensitive to problems
-  than MRP
+- **R/E:** racial and ethnic categories
+- **Administrative data:**
 
-## An aside to Buttice and Highton (2013)
+> For the purposes of this study, we use the definition of
+> administrative data used by Figlio et al. (2017). Administrative
+> data sets in education are collected by schools across the K–16
+> pipeline (a) that include a census of all students (and possibly
+> employees) in that school or institution, (b) that are collected for
+> administrative purposes, and (c) with the school, institution, or
+> their management organizations "owning" the data (though researchers
+> can apply for access). (p. 302)
 
-Buttice, M., & Highton, B. (2013). How Does Multilevel Regression and
-Poststratification Perform with Conventional National Surveys?
-Political Analysis, 21(4), 449-467. [www.jstor.org/stable/24572674](https://www.jstor.org/stable/24572674)
+::::
+:::
 
-> Given what researchers have learned about measurement error and
-> reliability, few contemporary public opinion scholars would rely on
-> national samples of 1500 to estimate state or congressional district
-> opinion by simply computing the DM estimates (Erikson 2006). As a
-> consequence, our focus is on how well MRP performs in an absolute
-> sense. In the case of national surveys of typical size, because DM
-> performs so poorly, the fact that MRP outperforms DM does not imply
-> that MRP performs _well_ and that its estimates should be employed in
-> substantive analyses. (Buttice & Highton, p. 453)
+# Purpose
 
-They expect MRP performance (public opinion across states) to be a
-function of (p. 453--454):
+> The ultimate purpose of this study is to challenge theorists and
+> methodologists to develop new frameworks that will be more sensitive
+> to complicated R/E identities while also being plausible for those
+> using administrative data sets. (p. 302)
 
-1. Degree to which individual-level covariates account for opinion
-1. Degree to which state-level covariates account for opinion
-1. Degree to which true opinion varies across states relative to
-   within states
-   
-![_From Buttice & Highton, 2013, p. 463. (**NOTE:** Meaning of ICC is
-different from ICC in Bisbee_)](bh_table_2.png)
-   
-> Across the three measures, then, the Monte Carlo results show that MRP
-> performance is neither uniformly strong nor uniformly weak. The
-> quality of the estimates depends crucially on how well the state-level
-> covariates account for opinion variation across the states along with
-> how the interstate differences in opinion compare to the intrastate
-> differences. (Buttice & Highton, p. 462)
+# Frameworks: Critical Race Theory
+
+::: columns
+:::: {.column width=40%}
+
+> Critical race theory in education positions structural inequality,
+> racism, and White supremacy as inherent aspects of educational
+> system/outcomes, acting as a framework for conceptualizing
+> research and interpreting findings on R/E inequality
+> (Ladson-Billings, 1998; Ladson-Billings & Tate, 1995). (p 304)
+
+::::
+:::: {.column width=60%}
+## Three challenges for quantitative use of R/E
+
+1. Claims of neutrality/objectivity
+2. Lack of discussion/recognition of power and structural aspects of
+   racism
+3. White dominance in the academy
+::::
+:::
+
+# Frameworks: (Traditional) Quantitative Perspectives
+
+::: columns
+:::: {.column width=40%}
+
+> ...education researchers have typically utilized R/E with a lack of
+> attention or understanding that the categories they utilize are
+> superficial and constructed using naive understandings of class and
+> race that are then imbued with deficit-oriented markers of
+> inferiority and superiority. (p 305)
+
+::::
+:::: {.column width=60%}
+## Typical statistical concerns
+
+1. Power
+2. Precision
+3. Parsimony
+
+## Typical outcomes
+
+1. Deficit framing ("achievement gap")
+2. Dropping small groups from analysis, or...
+3. ...combining into "other" group
+
+::::
+:::
+
+# Frameworks: QuantCrit
+
+::: columns
+:::: {.column width=40%}
+
+> A community of scholars has been purposefully attempting to combine
+> critical race theory with quantitative research methods, calling
+> this methodology QuantCrit (Sablan, 2019). The goal of these efforts
+> is to create a space for quantitative research that engages with
+> critical race theory authentically. (p. 305)
+
+::::
+:::: {.column width=60%}
+## Process that
+
+1. Recognizes flaws in typical quant processes
+2. Notes subjective stance of researcher
+3. Takes assets-oriented framing
+
+::::
+:::
+
+# Methodology
+
+- Systematic review
+  - Google Scholar and ProQuest
+  - 2001 to 2019
+  - Peer reviewed
+  - U.S. context
+- 55 articles in final analysis set
+
+# Findings: Measuring R/E
+
+::: columns
+:::: {.column width=40%}
+
+> One clear pattern across the 55 studies included in this research
+> synthesis was the heterogeneity in approaches to measuring
+> R/E. Between changes over time, differences across populations,
+> and methodological choices, measuring R/E was conceptualized in
+> dozens of ways across the 55 studies. (p. 308)
+
+::::
+:::: {.column width=60%}
+
+- Universal Measures 
+- U.S. Census Bureau and Federal Agency Guidance
+   - Race + ethnicity vs mutually exclusive vs select all
+   - Hispanic pan-ethnicity measure is specific challenge
+     - inflated "other"
+	 - political concerns with granular approaches
+- Reliability/Validity
+  - R/E identification can change over time...
+  - ...and within context
+
+::::
+:::
+
+# Findings: Missing R/E data
+
+::: columns
+:::: {.column width=40%}
+
+> When quantitative education researchers utilize administrative data
+> sets, it is a general expectation that R/E data will, at the very
+> least, be included as covariates regardless of the analytical
+> design. One of the key problems that can arise, however, is missing
+> data on R/E. (p. 318)
+
+::::
+:::: {.column width=60%}
+
+- Observations often dropped
+  - Problem for small groups
+- Imputation based on
+  - Names
+  - Geocoded addresses
+  - Bayesian Improved Surname Geocoding (BISG)
+
+::::
+:::
+
+# Findings: Analysis Incorporating Race/Ethnicity
+
+::: columns
+:::: {.column width=40%}
+
+> Several essays and reviews pointed out a common theme in including
+> R/E in analysis: doing so without nuance, description, or
+> thoughtfulness. While R/E were socially constructed, studies tended
+> to include R/E as covariates with the assumptions that these
+> variables are independent or causal (N. M. Garcia & Mayorga, 2018;
+> James, 2001; Lee, 2009; Ma et al., 2007). (p. 320)
+
+::::
+:::: {.column width=60%}
+## Suggestions
+
+- Do not (w/o explanation):
+  - recode R/E into non-White or "students of color"
+  - blame lack of R/E heterogeneity on lack of power
+  - explain R/E heterogeneity using biological/genetic arguments (just
+    don't ever this one)
+- Explain relevance of R/E to study
+- Use consistent definitions of R/E
+
+::::
+:::
+
+# Possible approaches
+
+## Measurement
+- Disaggregate white group
+- Decide how race is defined (color? self-identification?)
+- Include "most identify/best" follow-up questions
+- Add questions about phenotype
+
+## Missing
+- BISG
+
+## Analysis
+- Incorporate qualitative information
+- Fractional R/E assignment for multiracial individuals
+- Be explicit about modeling choices
+
+# Questions
+
+- How can we incorporate QuantCrit principals into MRP work?
+- Others?
 
 
-# General Questions
 
-- How much credence should we give to "horse race"-style comparisons
-  using real data, particularly when the ground truth is just assumed
-  from the data?  
-  
-  > Initially, it may seem problematic to treat a sample as the
-  > population, but several factors suggest otherwise. First, consider
-  > an item on abortion opinion for which there are ninety-five
-  > Vermonters in a national sample of 30,000 respondents. We treat
-  > those ninety-five as the Vermont population. If they happen to be
-  > wildly unrepresentative, then some state-level covariates included
-  > in the multilevel opinion model (like state presidential vote)
-  > will not perform well, but this will be reflected in the measure
-  > of state-level covariate strength. To the extent that state-level
-  > covariate strength matters (and below we show that it is very
-  > important), the problem will be addressed when we analyze the
-  > relationship between the strength of the state-level covariates
-  > and MRP performance. Second, in supplemental analyses one of the
-  > state-level covariates we included in the multilevel opinion model
-  > was state ideology, which was measured as the disaggregated state
-  > mean ideology for the "population." If the ninety-five Vermonters
-  > are not typical Vermonters and exhibit abortion opinion that is
-  > not truly representative of Vermonters, then the same will likely
-  > be true for their ideological preferences. So, by including "true"
-  > ideological preferences as a state-level covariate in the MRP
-  > models, we account for this. As it turns out, for the eighty-nine
-  > items, overall MRP performance and the correlates of MRP
-  > performance were nearly identical when we included state ideology
-  > and when we did not. (Buttice & Highton, p. 455, footnote 14)
- 
-- Differences due to use of `lmer()` versus full Bayes via Stan?
